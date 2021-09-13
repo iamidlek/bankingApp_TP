@@ -20,6 +20,11 @@ module.exports = {
           'sass-loader',
         ]
       },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      },
     ]
   },
   plugins: [
