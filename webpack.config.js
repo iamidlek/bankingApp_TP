@@ -49,7 +49,7 @@ module.exports = {
   ],
   devServer: {
     host:'localhost',
-    port: 8089,
+    port: 8055,
     hot: true
   }
 }
