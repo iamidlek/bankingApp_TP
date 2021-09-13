@@ -25,6 +25,16 @@ module.exports = {
         exclude: /node_modules/,
         use: ['babel-loader']
       },
+      {
+        test: /\.(png|jpe?g|gif|webp)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]?[hash]',
+            publicPath: './dist/'
+          }
+        }
+      }
     ]
   },
   plugins: [
