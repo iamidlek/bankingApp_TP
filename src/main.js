@@ -1,43 +1,60 @@
 import './scss/main.scss'
 
+
+// Date set
+const date = new Date();
+const year = date.getFullYear();
+const month = date.getMonth() + 1;
+const today = date.getDate();
+
 // Json data set
-// fetch('https://gist.githubusercontent.com/iamidlek/f875ad6f59d5afe1e232a01287b40164/raw/923194a341dbdbdfdf77947bd1a77cd823a8b0aa/cashbook.json')
-//   .then(blob => blob.json())
-//   .then(data => value(data))
-  
-// const kakeibo = []
-  
-// function value (data) {
-//   data.bankList.forEach( dailyObj => {
-//     kakeibo.push(element)
-//   });
-// }
+function loadData () {
+  return fetch('https://gist.githubusercontent.com/iamidlek/f875ad6f59d5afe1e232a01287b40164/raw/923194a341dbdbdfdf77947bd1a77cd823a8b0aa/cashbook.json')
+  .then(blob => blob.json())
+  .then(data => data)
+}
 
-// let today = new Date();
-// let year = today.getFullYear(); // 년도
-// let month = today.getMonth() + 1;  // 월
-// let date = today.getDate();  // 날짜
+// This month data
 
-// console.log(kakeibo)
-// Income & Expenditure 
+const currMonth = []
+const classified = []
 
-// this month data
+let donutData = []
 
+setData()
 
+async function setData() {
+  const accList = await loadData()
+  await thisMonth(accList)
+}
 
-// const monthKakei = kakeibo.filter( log => {
-//   return info[0] === year && info[1] === month
-// })
+function thisMonth (list) {
+  list.bankList.forEach(dailyObj => {
+    const y = parseInt(dailyObj.date.slice(0,5))
+    const m = parseInt(dailyObj.date.slice(5,7))
+    if ( m === month && y === year ){
+      currMonth.push(dailyObj)
+    }
+  })
+  classify(currMonth)
+}
+function classify (datas) {
+  classified.push(datas.reduce( function (obj,item) {
+    if (!obj[item.classify]){
+      obj[item.classify] = 0
+    }
+    obj[item.classify] += item.price
+    return obj
+  }, {}))
+  classidata(classified[0])
+}
+function classidata (reduced) {
+  donutLabels.forEach(name => {
+    donutData += (`${reduced[name]},`)
+  })
+}
 
-
-// daily
-
-// kakeibo.forEach( log => {
-
-// })
-
-// Category
-
+console.log(donutData)
 
 
 // A.계좌별 페이지
@@ -76,7 +93,7 @@ acountPages.forEach( page => {
 
 
   // + 지출 상세 페이지 높이 변화
-  const changeBottom = page.querySelector('nav').getBoundingClientRect().top - 12
+  const changeBottom = page.querySelector('nav').getBoundingClientRect().top - 8
   const detailPage = page.querySelector('.use_history_detail')
 
   window.addEventListener('load', changeHeight)
@@ -225,20 +242,20 @@ const mixedChart = new Chart(ctx, {
   }
 });
 
-
+const donutLabels =[
+  'health',
+  'eatout',
+  'mart',
+  'shopping',
+  'oiling',
+]
 // canvas-donut
 const testing = document.getElementById('donut').getContext('2d');
 
 const donutChart = new Chart(testing, {
   type: 'doughnut',
   data: {
-    labels: [
-      'health',
-      'eatout',
-      'mart',
-      'shopping',
-      'oiling',
-    ],
+    labels: donutLabels,
     datasets: [{
       data: [300, 50, 100,200,100],
       backgroundColor: [
@@ -249,20 +266,11 @@ const donutChart = new Chart(testing, {
         '#DB3069',
       ],
       hoverOffset: 4,
+      borderWidth: 0,
     }]
   },
   options: {
     maintainAspectRatio: false,
-      tooltips: {
-        backgroundColor: "rgb(255,255,255)",
-        bodyFontColor: "#858796",
-        borderColor: '#dddfeb',
-        borderWidth: 1,
-        xPadding: 15,
-        yPadding: 15,
-        displayColors: false,
-        caretPadding: 10,
-      },
       plugins: {
         legend: {
           display: false,
