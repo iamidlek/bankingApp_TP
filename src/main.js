@@ -76,7 +76,7 @@ acountPages.forEach( page => {
 
 
   // + 지출 상세 페이지 높이 변화
-  const changeBottom = page.querySelector('nav').getBoundingClientRect().top - 8
+  const changeBottom = page.querySelector('nav').getBoundingClientRect().top - 12
   const detailPage = page.querySelector('.use_history_detail')
 
   window.addEventListener('load', changeHeight)
