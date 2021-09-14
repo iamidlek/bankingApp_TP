@@ -1,3 +1,681 @@
-body {
-  background-color: royalblue;
+/* 변수 만들기 */
+
+:root {
+  --font-base:#000;
+  --font-gray:#858585;
+  --ground:#EEECE5;
+  --page:#FFF;
+  --dark-gray:#C4C4C4;
+  --midle-gray:#B4B4B4;
+  --light-gray:#DADADA;
+  --list:#444;
+  --list-under:#DCDCDC;
+}
+
+/* 기본 설정 */
+
+* {
+  box-sizing: border-box;
+
+  &:before, &:after {
+    box-sizing: border-box;
+  }
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--font-base);
+}
+
+.container {
+  max-width: 720px;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--ground);
+}
+
+.safe_area {
+  height: 44px;
+  margin-bottom: 12.05px;
+}
+
+/* 전체 영역 */
+
+.app_screen {
+  position: relative;
+  height: 100%;
+
+  /* 설정 화면 잡아주기 */
+}
+
+button {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* 홈 화면 */
+
+.app_screen {
+  main {}
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 87.204%;
+    margin-left: 7.2%;
+    margin-right: 5.6%;
+    margin-bottom: 33px;
+
+    img {
+      display: block;
+      width: 43px;
+    }
+
+    h1 {
+      font-size: 18px;
+    }
+
+    ul {
+      &::after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+
+      li {
+        float: left;
+
+        + li {
+          margin-left: 18px;
+        }
+
+        &:first-child img {
+          width: 24px;
+          height: 21px;
+        }
+
+        &:last-child img {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+}
+
+/* 지출 요약 */
+
+.bank_acct .bank_acct_info {
+  width: 74.4%;
+  margin: 0 auto;
+  box-shadow: 0px 0px 16px rgba(226, 191, 66, 0.19);
+  border-radius: 12px;
+  background-color: var(--page);
+  padding: 14px 0 6px;
+  margin-bottom: 24px;
+  text-align: center;
+  position: relative;
+}
+
+.bank_acct_info {
+  h3 {
+    font-size: 14px;
+    color: var(--font-gray);
+    margin-bottom: 16px;
+  }
+
+  .acct_balance {
+    width: 57.551971%;
+    margin: 0 auto 16px;
+
+    span {
+      font-size: 24px;
+      letter-spacing: 2px;
+    }
+  }
+
+  .transfer {
+    position: absolute;
+    top: 14px;
+    right: 6.093189%;
+  }
+
+  .mini_report {
+    .bar {
+      display: inline;
+      margin-left: 0px;
+    }
+
+    button {
+      display: inline;
+      margin-left: 5.017921%;
+    }
+
+    .calced span {
+      color: var(--font-gray);
+      margin-left: 2px;
+    }
+  }
+}
+
+/* input css style */
+
+/* 바 부분 */
+
+.bar input {
+  -webkit-appearance: none;
+  width: 72.401433%;
+  height: 6px;
+  background: #C4C4C4;
+  border-radius: 3px;
+  margin: 0 0px 14px 4px;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+/* 컨트롤 버튼 설정 */
+
+input {
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 8px;
+    height: 21px;
+    box-sizing: border-box;
+    background: #FF5F00;
+    border: 2px solid #FFFFFF;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  &::-moz-range-thumb {
+    -webkit-appearance: none;
+    width: 8px;
+    height: 21px;
+    box-sizing: border-box;
+    background: #FF5F00;
+    border: 2px solid #FFFFFF;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+}
+
+/* 공지 */
+
+.notice {
+  width: 69.866666%;
+  margin-left: 11.466666%;
+  margin-right: 18.666666%;
+  text-align: center;
+  margin-bottom: 21px;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+/* 메인 */
+
+.bank_use_history {
+  min-height: 84vh;
+  width: 100%;
+  background-color: var(--page);
+  box-shadow: 0px -5px 14px rgba(189, 144, 28, 0.08);
+  border-radius: 30px 30px 0px 0px;
+  padding-top: 4.3px;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 358px;
+
+  .drag_btn {
+    width: 48px;
+    border: 1.07px solid var(--dark-gray);
+    margin: 0 auto 18.55px;
+  }
+
+  .saving {
+    overflow-x: scroll;
+    max-width: 82.133333%;
+    margin: 0 9.866667% 0 8%;
+    -ms-overflow-style: none;
+
+    /* IE and Edge */
+    scrollbar-width: none;
+
+    /* Firefox */
+    margin-bottom: 16px;
+
+    &::-webkit-scrollbar {
+      display: none;
+
+      /* Chrome, Safari, Opera*/
+    }
+
+    ul {
+      display: flex;
+
+      li {
+        width: 162px;
+        height: 47px;
+        flex-shrink: 0;
+        border-radius: 6px;
+        overflow: hidden;
+        background-color: var(--light-gray);
+        position: relative;
+
+        span {
+          font-size: 12px;
+          font-weight: 300;
+          color: var(--page);
+          position: absolute;
+        }
+
+        > span {
+          &.title {
+            top: 5px;
+            left: 13px;
+          }
+
+          &.amount {
+            position: absolute;
+            bottom: 7px;
+            left: 13px;
+          }
+        }
+
+        + li {
+          margin-left: 9px;
+        }
+
+        &:last-child {
+          position: relative;
+          background-color: transparent;
+          width: 99px;
+          margin-left: 13px;
+
+          img {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-12px);
+            width: 24px;
+            height: 24px;
+          }
+
+          span {
+            position: absolute;
+            right: 0;
+            font-size: 12px;
+            line-height: 46px;
+            color: #FF5F00;
+          }
+        }
+
+        > div {
+          &.orange {
+            background-color: #FF5F00;
+            height: 100%;
+            width: 97px;
+          }
+
+          &.yellow {
+            background-color: #FEB700;
+            height: 100%;
+            width: 121px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* 저축 목표 */
+
+/* 지출 내역 */
+
+.use_history_detail {
+  /* height: 290px; iphone x 기준 35vh*/
+  height: 35vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+
+  /* IE and Edge */
+  scrollbar-width: none;
+
+  /* Firefox */
+  margin-bottom: 16px;
+
+  &::-webkit-scrollbar {
+    display: none;
+
+    /* Chrome, Safari, Opera*/
+  }
+
+  > ul {
+    width: 80.533333%;
+    margin-left: 9.6%;
+    margin-right: 9.866666%;
+
+    > li {
+      margin-bottom: 38px;
+
+      > {
+        div {
+          &::after {
+            content: '';
+            display: block;
+            clear: both;
+            margin-bottom: 8px;
+          }
+
+          span {
+            &:first-child {
+              float: left;
+              font-weight: 700;
+            }
+
+            &:last-child {
+              float: right;
+              color: var(--midle-gray);
+            }
+          }
+        }
+
+        ul > li {
+          font-size: 18px;
+          font-weight: 300;
+          line-height: 36px;
+          color: var(--list);
+          border-bottom: 1px solid var(--list-under);
+          margin-top: 2px;
+
+          &::after {
+            content: '';
+            display: block;
+            clear: both;
+          }
+
+          > span {
+            &:first-child {
+              float: left;
+            }
+
+            &:last-child {
+              float: right;
+            }
+
+            &.income {
+              color: #FF5F00;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* 하단 네비 */
+
+nav {
+  position: fixed;
+  width: 100vw;
+  max-width: 720px;
+  height: 76px;
+  background: linear-gradient(163.63deg, #00BDB2 11.35%, #C4E7B8 139.96%);
+  bottom: 0;
+  z-index: 100;
+
+  > ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    > li {
+      padding-top: 25.5px;
+
+      &:last-child {
+        padding-top: 22px;
+      }
+    }
+  }
+}
+
+/* 지출 관리 설정 page */
+
+.setting {
+  width: 100%;
+
+  /* height: 736px;  iphone x 기준*/
+  height: 92vh;
+  overflow-y: scroll;
+  position: absolute;
+  top: 100vh;
+  letter-spacing: -0.24px;
+  background-color: var(--page);
+  -ms-overflow-style: none;
+
+  /* IE and Edge */
+  scrollbar-width: none;
+
+  /* Firefox */
+  margin-bottom: 16px;
+  transition: all .5s;
+
+  &.on {
+    top: 0;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+
+    /* Chrome, Safari, Opera*/
+  }
+
+  .header {
+    position: fixed;
+    height: 114px;
+    width: 100%;
+    max-width: 720px;
+    background-color: var(--page);
+    z-index: 5;
+  }
+
+  h1 {
+    position: absolute;
+    bottom: 0;
+    left: 8%;
+    font-size: 24px;
+  }
+
+  button {
+    position: absolute;
+    top: 44px;
+    right: 3.466667%;
+    font-weight: 300;
+    letter-spacing: -0.24px;
+  }
+
+  .set_budget {
+    margin-top: 20px;
+    padding-top: 132px;
+    margin-left: 8%;
+    width: 82.666666%;
+
+    h3 {
+      float: left;
+      font-size: 18px;
+      color: var(--list);
+    }
+
+    span {
+      float: right;
+      font-size: 24px;
+      color: #FF5F00;
+      position: relative;
+      top: -4px;
+    }
+
+    .bar {
+      clear: both;
+      margin: 60px auto;
+
+      input {
+        width: 100%;
+        height: 9.2px;
+
+        &::-webkit-slider-thumb {
+          width: 12px;
+          height: 28px;
+          border-color: #EEEBE5;
+        }
+
+        &::-moz-range-thumb {
+          border-color: #EEEBE5;
+        }
+      }
+    }
+  }
+
+  .daily_report {
+    margin-left: 8%;
+    font-size: 18px;
+    color: var(--list);
+    margin-bottom: 46px;
+    position: relative;
+
+    h3 {
+      margin-bottom: 16px;
+    }
+
+    .overflowpart {
+      overflow-x: scroll;
+      height: 200px;
+      position: relative;
+      -ms-overflow-style: none;
+
+      /* IE and Edge */
+      scrollbar-width: none;
+
+      /* Firefox */
+
+      &::-webkit-scrollbar {
+        display: none;
+
+        /* Chrome, Safari, Opera*/
+      }
+    }
+
+    .bar_size {
+      height: 200px;
+      width: 100vh;
+    }
+  }
+
+  .monthly_out_pattern {
+    margin-left: 8%;
+    font-size: 18px;
+    color: var(--list);
+    margin-bottom: 8px;
+
+    h3 {
+      margin-bottom: 13px;
+    }
+
+    .sizingpart {
+      width: 80%;
+      margin-left: 1.907805%;
+    }
+
+    .donut_graph {
+      width: 308px;
+      height: 308px;
+      margin: 0 auto;
+      position: relative;
+      margin-bottom: 16px;
+
+      div {
+        position: absolute;
+        width: 160px;
+        height: 36px;
+        color: var(--font-base);
+        top: 50%;
+        left: 50%;
+        transform: translate(-45px, -18px);
+      }
+    }
+  }
+}
+
+/* 일간 리포트 */
+
+/* 월간 지출 패턴 */
+
+/* 카테고리들 */
+
+.out_category {
+  width: 82.666666%;
+  margin-left: 1.707805%;
+
+  li {
+    margin-bottom: 24px;
+
+    &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    img {
+      float: left;
+    }
+
+    .left {
+      float: left;
+      font-size: 18px;
+      font-weight: 350;
+      color: var(--font-base);
+    }
+
+    .right {
+      float: right;
+      font-size: 18px;
+      font-weight: 350;
+      color: var(--font-gray);
+    }
+
+    &:first-child img {
+      margin-right: 21px;
+    }
+
+    &:nth-child(2) img {
+      margin-right: 20px;
+    }
+
+    &:nth-child(3) img {
+      margin-right: 31px;
+    }
+
+    &:nth-child(4) img {
+      margin-right: 23px;
+    }
+
+    &:nth-child(5) img {
+      margin-right: 25px;
+    }
+  }
 }
