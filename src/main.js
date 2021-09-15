@@ -170,7 +170,6 @@ horizontals.forEach( horizontal => {
 // B.Home In/Out details
 acountPages.forEach( page => {
   const ulMother = page.querySelector('.use_history_detail > ol')
-  // const ulChild = ulMother.querySelector('ul')
   currMonth.then( logs => {
     
     const dayList = Array.from(new Set(logs.map(l => l.date))).reverse()
@@ -191,11 +190,89 @@ acountPages.forEach( page => {
       return pulsEl(day,dayAccum[i],detailList[i])
     }).join('')
 
-    console.log(html)
-
     ulMother.innerHTML = html
+
+    // B.Canvas-Mixed bar
+    const dayInfo = []
+    for (let i = 1; i <= today; i++) {
+      dayInfo.push(i)
+    }
+    const dayListIndex = dayList.map(day=>parseInt(day.slice(8)))
+    const valAcc = dayInfo.map(every => dayListIndex.includes(every) ? dayAccum[dayListIndex.indexOf(every)] : 0)
+
+    BuildMixChart(dayInfo, valAcc)
   })
 })
+
+function BuildMixChart(dayLabels, valAcc) {
+  let cal = 0
+  const valAccRa = valAcc.map((val,i)=> {
+    cal = (cal + val) / (i+1)
+    return cal 
+  })
+  console.log(valAccRa)
+  const data = {
+    labels: dayLabels,
+    datasets: [
+      {
+        type: 'bar',
+        data: valAcc,
+        backgroundColor: '#38C976',
+        barThickness: 5,
+        borderRadius: 4,
+        order: 2
+      },
+      {
+        type: 'line', 
+        data: valAccRa,
+        borderWidth: 2,
+        borderColor: '#FF5F00',
+        borderDash: [5,7],
+        pointBorderColor: 'transparent',
+        pointBackgroundColor:'transparent',
+        order: 1
+      }
+    ]
+  };
+
+  const ctx = document.getElementById('bar_chart').getContext('2d');
+
+  const mixedChart = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        }
+      },
+      scales: {        
+        y: {
+          grid: {
+            borderDash: [8, 4],
+            color: '#ECF0F4',
+            drawBorder: false
+          },
+          beginAtZero: false,
+          min: 0,
+          max: 250000,
+          ticks: {
+            stepSize: 50000
+          }
+        },  
+        x: {
+          grid: {
+            display: false,
+          },
+        },
+        
+      }
+    }
+  });
+
+  return mixedChart
+}
 
 function pulsEl (day,accum,list) {
   const date = parseInt(day.slice(8)) === today ? '오늘' : parseInt(day.slice(8)) === today - 1 ? '어제' : `${parseInt(day.slice(8))}일`
@@ -219,66 +296,6 @@ function pulsEl (day,accum,list) {
 
   return `<li>${htmlH}<ol>${htmlC}</ol></li>`
 }
-
-
-
-// B.Canvas-Mixed bar
-const ctx = document.getElementById('bar_chart').getContext('2d');
-const mixedChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['01', '02', '03', '04','04','04','04','04','04','04','04','04','04','04','04','04','04','04','04','04','04','04','04','04','30','04','04','04','04','30' ],
-    datasets: [
-      {
-        type: 'bar',
-        data: [10000, 20000, 30000, 30000, 20000, 50000],
-        backgroundColor: '#38C976',
-        barThickness: 5,
-        borderRadius: 4,
-        order: 2
-      },
-      {
-        type: 'line', 
-        data: [10000, 30000, 60000, 90000, 10000, 50000],
-        borderWidth: 2,
-        borderColor: '#FF5F00',
-        borderDash: [5,7],
-        pointBorderColor: 'transparent',
-        pointBackgroundColor:'transparent',
-        order: 1
-      }
-    ]
-  },
-  options: {
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      }
-    },
-    scales: {        
-      y: {
-        grid: {
-          borderDash: [8, 4],
-          color: '#ECF0F4',
-          drawBorder: false
-        },
-        beginAtZero: false,
-        min: 0,
-        max: 100000,
-        ticks: {
-          stepSize: 20000
-        }
-      },  
-      x: {
-        grid: {
-          display: false,
-        },
-      },
-      
-    }
-  }
-});
 
 // B.Canvas-doughnut
 currMonth.then(logs => {
