@@ -3,6 +3,14 @@ import './scss/main.scss'
 // A.계좌별 페이지
 const acountPages = document.querySelectorAll('.app_screen')
 
+// A.Date set
+const date = new Date();
+const year = date.getFullYear();
+const month = date.getMonth() + 1;
+const today = date.getDate();
+const lastDate = new Date(year, month, 0).getDate();
+const restDate = lastDate - today
+
 // B.지출 설정 페이지 on/off 토글
 acountPages.forEach( page => {
   const setBtn = page.querySelector('.go_set_budget')
@@ -90,30 +98,42 @@ acountPages.forEach( page => {
   }
 })
 
-// B. input[type="range"] style (thumb 이동시 bar 스타일)
+// B. input & value
 acountPages.forEach( page => {
   const input = page.querySelector('.set-val')
   const homeInput = page.querySelector('.onlyview')
   const stdAmount = page.querySelector('.set_budget > span')
+  const spended = page.querySelector('.total')
+  const recommend = page.querySelector('.calced > span')
 
   // 정보 받아오면 실행으로 변경 가능
-  window.addEventListener('load', () => inputUpdate(input,homeInput,stdAmount))
+  window.addEventListener('load', () => inputUpdate(input,homeInput,stdAmount,spended,recommend))
   // 값 변경시
-  input.addEventListener('change', () => inputUpdate(input,homeInput,stdAmount))
+  input.addEventListener('change', () => inputUpdate(input,homeInput,stdAmount,spended,recommend))
   // 모바일
-  input.addEventListener('touchmove', () => inputUpdate(input,homeInput,stdAmount))
+  input.addEventListener('touchmove', () => inputUpdate(input,homeInput,stdAmount,spended,recommend))
   // 웹
-  input.addEventListener('mousemove', () => inputUpdate(input,homeInput,stdAmount))
+  input.addEventListener('mousemove', () => inputUpdate(input,homeInput,stdAmount,spended,recommend))
   
 })
 
-function inputUpdate (input,homeInput,stdAmount) {
+function inputUpdate (input,homeInput,stdAmount,spended,recommend) {
   homeInput.value = input.value
   const valueToPer = input.value / 50000
   input.style.background = `linear-gradient(to right, #FFDB4C 0%, #FFDB4C ${valueToPer}%, #C4C4C4 ${valueToPer}%, #C4C4C4 100%)`
   homeInput.style.background = `linear-gradient(to right, #FFDB4C 0%, #FFDB4C ${valueToPer}%, #C4C4C4 ${valueToPer}%, #C4C4C4 100%)`
-  stdAmount.innerHTML= `${input.value}원`
+  stdAmount.innerHTML= `${numberWithCommas(input.value)}원`
+
+  // 권고
+  const result = input.value - parseInt(spended.innerHTML.replace(/,/g,''))
+  
+  if (result >= 0) {
+    recommend.innerHTML =`D -${restDate} : ${result}원 남음`
+  } else {
+    recommend.innerHTML =`D -${restDate} : ${Math.abs(result)}원 초과`
+  }
 }
+
 
 // A. 옆으로 스크롤 되는 요소에 휠을 줄 수 있게 하기
 const horizontals = document.querySelectorAll('.saving')
@@ -131,12 +151,6 @@ horizontals.forEach( horizontal => {
   })
 })
 
-// Date set
-const date = new Date();
-const year = date.getFullYear();
-const month = date.getMonth() + 1;
-const today = date.getDate();
-
 // Json data set(this month data)
 const currMonth = fetch('https://gist.githubusercontent.com/iamidlek/f875ad6f59d5afe1e232a01287b40164/raw/923194a341dbdbdfdf77947bd1a77cd823a8b0aa/cashbook.json')
   .then(blob => blob.json())
@@ -146,7 +160,8 @@ function thisMonth (data) {
   return data.bankList.filter(dailyObj => {
     const y = parseInt(dailyObj.date.slice(0,5))
     const m = parseInt(dailyObj.date.slice(5,7))
-      return m === month && y === year
+    const d = parseInt(dailyObj.date.slice(8))
+      return m === month && y === year && d <= today
   })
 }
 
@@ -236,12 +251,14 @@ currMonth.then(logs => {
     return a+i 
   })
 
-  totalAmount(accumList, totalSum)
+  const income = accum[""]
+
+  totalAmount(accumList, totalSum, income)
   BuildChart(DoughnutLabels, accumList);
   
 })
 
-function totalAmount(list,total) {
+function totalAmount(list,total,income) {
   // 월 정보
   const monInfo = document.querySelector('.thismon')
   monInfo.innerHTML = month
@@ -250,8 +267,9 @@ function totalAmount(list,total) {
   const totalSpan = document.querySelector('.total')
   totalSpan.innerHTML = numberWithCommas(total)
   
+  // 홈화면 금액
   const homeSpan = document.querySelector('.acct_balance > span')
-  homeSpan.innerHTML =numberWithCommas(total)
+  homeSpan.innerHTML = numberWithCommas(income)
   // 종목별 금액
   // memo: 순서가 바뀌는 요건사항이 있을 수 있음 (반복문x?)
   //       분류 종목이 추가되는 요건 사항이 있을 수 있음
