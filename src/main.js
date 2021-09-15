@@ -238,10 +238,13 @@ currMonth.then(logs => {
 })
 
 function totalAmount(list,total) {
-  
+  // 월 정보
+  const monInfo = document.querySelector('.thismon')
+  monInfo.innerHTML = month
+
   // 지출 총액
   const totalSpan = document.querySelector('.total')
-  totalSpan.innerHTML = total
+  totalSpan.innerHTML = numberWithCommas(total)
 
   // 종목별 금액
   // memo: 순서가 바뀌는 요건사항이 있을 수 있음 (반복문x?)
@@ -252,11 +255,11 @@ function totalAmount(list,total) {
   const mart = document.querySelector('.mart')
   const shopping = document.querySelector('.shopping')
 
-  oiling.innerHTML = `${list[list.length -1]}원`
-  health.innerHTML = `${list[0]}원`
-  eatout.innerHTML = `${list[1]}원`
-  mart.innerHTML = `${list[2]}원`
-  shopping.innerHTML = `${list[3]}원`
+  oiling.innerHTML = `${numberWithCommas(list[list.length -1])}원`
+  health.innerHTML = `${numberWithCommas(list[0])}원`
+  eatout.innerHTML = `${numberWithCommas(list[1])}원`
+  mart.innerHTML = `${numberWithCommas(list[2])}원`
+  shopping.innerHTML = `${numberWithCommas(list[3])}원`
 
 }
 
@@ -293,4 +296,8 @@ function BuildChart(labels, values) {
     });
 
   return myChart;
+}
+
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
