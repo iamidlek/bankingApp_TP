@@ -34,7 +34,6 @@ acountPages.forEach( page => {
   let isDown = false
   let eStartY = 0
 
-
   // + 지출 상세 페이지 높이 변화
   const changeBottom = page.querySelector('nav').getBoundingClientRect().top - 8
   const detailPage = page.querySelector('.use_history_detail')
@@ -91,24 +90,29 @@ acountPages.forEach( page => {
   }
 })
 
-  // 색상 정보도 받아 올 수 있게?하려면 page 부터 돌듯..?
-// A.input[type="range"] style (thumb 이동시 bar 스타일)
-const inputs = document.querySelectorAll('input[type="range"]')
+// B. input[type="range"] style (thumb 이동시 bar 스타일)
+acountPages.forEach( page => {
+  const input = page.querySelector('.set-val')
+  const homeInput = page.querySelector('.onlyview')
+  const stdAmount = page.querySelector('.set_budget > span')
 
-// B.
-inputs.forEach(input => {
   // 정보 받아오면 실행으로 변경 가능
-  window.addEventListener('load', () => inputUpdate(input))
+  window.addEventListener('load', () => inputUpdate(input,homeInput,stdAmount))
   // 값 변경시
-  input.addEventListener('change', () => inputUpdate(input))
+  input.addEventListener('change', () => inputUpdate(input,homeInput,stdAmount))
   // 모바일
-  input.addEventListener('touchmove', () => inputUpdate(input))
+  input.addEventListener('touchmove', () => inputUpdate(input,homeInput,stdAmount))
   // 웹
-  input.addEventListener('mousemove', () => inputUpdate(input))
+  input.addEventListener('mousemove', () => inputUpdate(input,homeInput,stdAmount))
+  
 })
 
-function inputUpdate (input) {
-  input.style.background = `linear-gradient(to right, #FFDB4C 0%, #FFDB4C ${input.value}%, #C4C4C4 ${input.value}%, #C4C4C4 100%)`
+function inputUpdate (input,homeInput,stdAmount) {
+  homeInput.value = input.value
+  const valueToPer = input.value / 50000
+  input.style.background = `linear-gradient(to right, #FFDB4C 0%, #FFDB4C ${valueToPer}%, #C4C4C4 ${valueToPer}%, #C4C4C4 100%)`
+  homeInput.style.background = `linear-gradient(to right, #FFDB4C 0%, #FFDB4C ${valueToPer}%, #C4C4C4 ${valueToPer}%, #C4C4C4 100%)`
+  stdAmount.innerHTML= `${input.value}원`
 }
 
 // A. 옆으로 스크롤 되는 요소에 휠을 줄 수 있게 하기
@@ -245,7 +249,9 @@ function totalAmount(list,total) {
   // 지출 총액
   const totalSpan = document.querySelector('.total')
   totalSpan.innerHTML = numberWithCommas(total)
-
+  
+  const homeSpan = document.querySelector('.acct_balance > span')
+  homeSpan.innerHTML =numberWithCommas(total)
   // 종목별 금액
   // memo: 순서가 바뀌는 요건사항이 있을 수 있음 (반복문x?)
   //       분류 종목이 추가되는 요건 사항이 있을 수 있음
