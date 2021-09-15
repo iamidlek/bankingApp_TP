@@ -1,62 +1,5 @@
 import './scss/main.scss'
 
-
-// Date set
-const date = new Date();
-const year = date.getFullYear();
-const month = date.getMonth() + 1;
-const today = date.getDate();
-
-// Json data set
-function loadData () {
-  return fetch('https://gist.githubusercontent.com/iamidlek/f875ad6f59d5afe1e232a01287b40164/raw/923194a341dbdbdfdf77947bd1a77cd823a8b0aa/cashbook.json')
-  .then(blob => blob.json())
-  .then(data => data)
-}
-
-// This month data
-
-const currMonth = []
-const classified = []
-
-let donutData = []
-
-setData()
-
-async function setData() {
-  const accList = await loadData()
-  await thisMonth(accList)
-}
-
-function thisMonth (list) {
-  list.bankList.forEach(dailyObj => {
-    const y = parseInt(dailyObj.date.slice(0,5))
-    const m = parseInt(dailyObj.date.slice(5,7))
-    if ( m === month && y === year ){
-      currMonth.push(dailyObj)
-    }
-  })
-  classify(currMonth)
-}
-function classify (datas) {
-  classified.push(datas.reduce( function (obj,item) {
-    if (!obj[item.classify]){
-      obj[item.classify] = 0
-    }
-    obj[item.classify] += item.price
-    return obj
-  }, {}))
-  classidata(classified[0])
-}
-function classidata (reduced) {
-  donutLabels.forEach(name => {
-    donutData += (`${reduced[name]},`)
-  })
-}
-
-console.log(donutData)
-
-
 // A.계좌별 페이지
 const acountPages = document.querySelectorAll('.app_screen')
 
@@ -184,6 +127,26 @@ horizontals.forEach( horizontal => {
   })
 })
 
+// Date set
+const date = new Date();
+const year = date.getFullYear();
+const month = date.getMonth() + 1;
+const today = date.getDate();
+
+// Json data set(this month data)
+const currMonth = fetch('https://gist.githubusercontent.com/iamidlek/f875ad6f59d5afe1e232a01287b40164/raw/923194a341dbdbdfdf77947bd1a77cd823a8b0aa/cashbook.json')
+  .then(blob => blob.json())
+  .then(data => thisMonth(data))
+
+function thisMonth (data) {
+  return data.bankList.filter(dailyObj => {
+    const y = parseInt(dailyObj.date.slice(0,5))
+    const m = parseInt(dailyObj.date.slice(5,7))
+      return m === month && y === year
+  })
+}
+
+
 // canvas-bar
 const ctx = document.getElementById('bar_chart').getContext('2d');
 const mixedChart = new Chart(ctx, {
@@ -242,40 +205,66 @@ const mixedChart = new Chart(ctx, {
   }
 });
 
-const donutLabels =[
-  'health',
-  'eatout',
-  'mart',
-  'shopping',
-  'oiling',
-]
-// canvas-donut
-const testing = document.getElementById('donut').getContext('2d');
 
-const donutChart = new Chart(testing, {
-  type: 'doughnut',
-  data: {
-    labels: donutLabels,
-    datasets: [{
-      data: [300, 50, 100,200,100],
-      backgroundColor: [
-        '#F58F29',
-        '#FF4B3E',
-        '#235789',
-        '#9BC53D',
-        '#DB3069',
-      ],
-      hoverOffset: 4,
-      borderWidth: 0,
-    }]
-  },
-  options: {
-    maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false,
-        }
+
+currMonth.then(logs => {
+  const accum = logs.reduce( function (obj,item) {
+      if (!obj[item.classify]){
+        obj[item.classify] = 0
+      }
+      obj[item.classify] += item.price
+      return obj
+    }, {})
+    
+    const DoughnutLabels =[
+      'health',
+      'eatout',
+      'mart',
+      'shopping',
+      'oiling',
+    ]
+  
+  const accumList = DoughnutLabels.map(name => {
+      return accum[name]
+    })
+  
+  console.log(accumList)
+
+  BuildChart(DoughnutLabels, accumList);
+  
+})
+
+function BuildChart(labels, values) {
+  const data = {
+      labels: labels,
+      datasets: [{
+          data: values,
+          backgroundColor: [
+            '#F58F29',
+            '#FF4B3E',
+            '#235789',
+            '#9BC53D',
+            '#DB3069',
+          ],
+          hoverOffset: 0,
+          borderWidth: 0,
+      }],
+  };
+
+  const ctx = document.getElementById('donut').getContext('2d');
+  const myChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: data,
+      options: {
+        maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              display: false,
+            }
+          },
+          cutout: '77%',
       },
-      cutout: '77%',
-  },
-});
+    });
+
+  return myChart;
+}
