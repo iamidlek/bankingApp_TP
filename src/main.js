@@ -11,7 +11,22 @@ const today = date.getDate();
 const lastDate = new Date(year, month, 0).getDate();
 const restDate = lastDate - today
 
-// B.지출 설정 페이지 on/off 토글
+// A.Json data set(this month data)
+const currMonth = fetch('https://gist.githubusercontent.com/iamidlek/f875ad6f59d5afe1e232a01287b40164/raw/923194a341dbdbdfdf77947bd1a77cd823a8b0aa/cashbook.json')
+  .then(blob => blob.json())
+  .then(data => thisMonth(data))
+
+function thisMonth (data) {
+  return data.bankList.filter(dailyObj => {
+    const y = parseInt(dailyObj.date.slice(0,5))
+    const m = parseInt(dailyObj.date.slice(5,7))
+    const d = parseInt(dailyObj.date.slice(8))
+      return m === month && y === year && d <= today
+  })
+}
+
+
+// B.지출 설정 페이지 on/off
 acountPages.forEach( page => {
   const setBtn = page.querySelector('.go_set_budget')
   const closeBtn = page.querySelector('.close')
@@ -128,9 +143,9 @@ function inputUpdate (input,homeInput,stdAmount,spended,recommend) {
   const result = input.value - parseInt(spended.innerHTML.replace(/,/g,''))
   
   if (result >= 0) {
-    recommend.innerHTML =`D -${restDate} : ${result}원 남음`
+    recommend.innerHTML =`D -${restDate} : ${numberWithCommas(result)}원 남음`
   } else {
-    recommend.innerHTML =`D -${restDate} : ${Math.abs(result)}원 초과`
+    recommend.innerHTML =`D -${restDate} : ${numberWithCommas(Math.abs(result))}원 초과`
   }
 }
 
@@ -151,22 +166,63 @@ horizontals.forEach( horizontal => {
   })
 })
 
-// Json data set(this month data)
-const currMonth = fetch('https://gist.githubusercontent.com/iamidlek/f875ad6f59d5afe1e232a01287b40164/raw/923194a341dbdbdfdf77947bd1a77cd823a8b0aa/cashbook.json')
-  .then(blob => blob.json())
-  .then(data => thisMonth(data))
 
-function thisMonth (data) {
-  return data.bankList.filter(dailyObj => {
-    const y = parseInt(dailyObj.date.slice(0,5))
-    const m = parseInt(dailyObj.date.slice(5,7))
-    const d = parseInt(dailyObj.date.slice(8))
-      return m === month && y === year && d <= today
+// B.Home In/Out details
+acountPages.forEach( page => {
+  const ulMother = page.querySelector('.use_history_detail > ol')
+  // const ulChild = ulMother.querySelector('ul')
+  currMonth.then( logs => {
+    
+    const dayList = Array.from(new Set(logs.map(l => l.date))).reverse()
+    const dayAccum = getDayListAccum()
+    const detailList = dayList.map(day=> logs.filter(l => day === l.date))
+
+    function getDayListAccum () {
+      return dayList.map(day=>{
+        let count = 0
+        logs.forEach(l => {
+          if (day === l.date && l.income === 'out') count += l.price;
+        })
+        return count
+      })
+    }
+    
+    const html = dayList.map( (day, i) => {
+      return pulsEl(day,dayAccum[i],detailList[i])
+    }).join('')
+
+    console.log(html)
+
+    ulMother.innerHTML = html
   })
+})
+
+function pulsEl (day,accum,list) {
+  const date = parseInt(day.slice(8)) === today ? '오늘' : parseInt(day.slice(8)) === today - 1 ? '어제' : `${parseInt(day.slice(8))}일`
+  
+  const htmlH = `
+    <div>
+      <span>${date}</span>
+      <span>${numberWithCommas(accum)}원 지출</span>
+    </div>
+    `
+  
+  const htmlC = list.map(l => {
+    const {income,history,price} = l
+    return `
+    <li>
+      <span>${history}</span>
+      <span class="${income}">${numberWithCommas(price)}</span>
+    </li>
+    `
+  }).join('')
+
+  return `<li>${htmlH}<ol>${htmlC}</ol></li>`
 }
 
 
-// canvas-bar
+
+// B.Canvas-Mixed bar
 const ctx = document.getElementById('bar_chart').getContext('2d');
 const mixedChart = new Chart(ctx, {
   type: 'bar',
@@ -224,8 +280,7 @@ const mixedChart = new Chart(ctx, {
   }
 });
 
-
-
+// B.Canvas-doughnut
 currMonth.then(logs => {
   const accum = logs.reduce( function (obj,item) {
       if (!obj[item.classify]){
