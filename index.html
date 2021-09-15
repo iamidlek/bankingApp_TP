@@ -34,7 +34,7 @@
             <button class="transfer">이체</button>
             <div class="mini_report">
               <div class="bar">
-                <input type="range">
+                <input class="onlyview" type="range" min="0" max="5000000" disabled>
               </div>
               <button class="go_set_budget"><img src="./images/chart.svg" alt="set_budget"></button>
               <div class="calced"><span>5일 동안 210,000원 남음</span></div>
@@ -132,9 +132,9 @@
         </div>
         <section class="set_budget">
           <h3>기준금액설정</h3>
-          <span>2,100,000원</span>
+          <span>원</span>
           <div class="bar">
-            <input type="range">
+            <input class="set-val" type="range" min="0" max="5000000">
           </div>
         </section>
         <section class="daily_report">
