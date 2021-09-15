@@ -210,7 +210,6 @@ function BuildMixChart(dayLabels, valAcc) {
     cal = (cal + val) / (i+1)
     return cal 
   })
-  console.log(valAccRa)
   const data = {
     labels: dayLabels,
     datasets: [
