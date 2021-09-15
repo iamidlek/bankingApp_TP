@@ -228,11 +228,37 @@ currMonth.then(logs => {
       return accum[name]
     })
   
-  console.log(accumList)
+  const totalSum = accumList.reduce( function (a, i) {
+    return a+i 
+  })
 
+  totalAmount(accumList, totalSum)
   BuildChart(DoughnutLabels, accumList);
   
 })
+
+function totalAmount(list,total) {
+  
+  // 지출 총액
+  const totalSpan = document.querySelector('.total')
+  totalSpan.innerHTML = total
+
+  // 종목별 금액
+  // memo: 순서가 바뀌는 요건사항이 있을 수 있음 (반복문x?)
+  //       분류 종목이 추가되는 요건 사항이 있을 수 있음
+  const oiling = document.querySelector('.oiling')
+  const health = document.querySelector('.health')
+  const eatout = document.querySelector('.eatout')
+  const mart = document.querySelector('.mart')
+  const shopping = document.querySelector('.shopping')
+
+  oiling.innerHTML = `${list[list.length -1]}원`
+  health.innerHTML = `${list[0]}원`
+  eatout.innerHTML = `${list[1]}원`
+  mart.innerHTML = `${list[2]}원`
+  shopping.innerHTML = `${list[3]}원`
+
+}
 
 function BuildChart(labels, values) {
   const data = {
