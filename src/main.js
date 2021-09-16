@@ -1,5 +1,7 @@
 import './scss/main.scss'
 
+alert('개발자 도구 > iPhoneX 로 설정하고 확인해 주세요')
+
 // A.계좌별 페이지
 const acountPages = document.querySelectorAll('.app_screen')
 
