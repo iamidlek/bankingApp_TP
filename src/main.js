@@ -1,12 +1,7 @@
 import './scss/main.scss'
-import Swiper from 'swiper';
-import 'swiper/css';
 
 // A.계좌별 페이지
 const acountPages = document.querySelectorAll('.app_screen')
-
-var swiper = new Swiper(".container", {});
-
 
 // A.Date set
 const date = new Date();
@@ -56,7 +51,7 @@ acountPages.forEach( page => {
   
   // 최대 최소 값 (고정)
   const maxY = dragBtn.getBoundingClientRect().top
-  const minY = page.querySelector('.home_header').getBoundingClientRect().bottom +6 
+  const minY = page.querySelector('.home_header').getBoundingClientRect().bottom 
 
   // 컨트롤러
   let isDown = false

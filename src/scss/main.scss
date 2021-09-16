@@ -1,15 +1,17 @@
 /* 변수 만들기 */
 
 :root {
-  --font-base:#000;
-  --font-gray:#858585;
+  --black:#000;
+  --white:#FFF;
+  --gray:#858585;
   --ground:#EEECE5;
-  --page:#FFF;
   --dark-gray:#C4C4C4;
   --midle-gray:#B4B4B4;
   --light-gray:#DADADA;
   --list:#444;
   --list-under:#DCDCDC;
+  --orange: #FF5F00;
+  --yellow: #FEB700;
 }
 
 /* 기본 설정 */
@@ -28,7 +30,7 @@ html, body {
   font-size: 14px;
   line-height: 1.5;
   font-weight: 500;
-  color: var(--font-base);
+  color: var(--black);
 }
 
 .container {
@@ -68,8 +70,6 @@ button {
 /* 홈 화면 */
 
 .app_screen {
-  main {}
-
   header {
     display: flex;
     justify-content: space-between;
@@ -123,7 +123,7 @@ button {
   margin: 0 auto;
   box-shadow: 0px 0px 16px rgba(226, 191, 66, 0.19);
   border-radius: 12px;
-  background-color: var(--page);
+  background-color: var(--white);
   padding: 14px 0 6px;
   margin-bottom: 24px;
   text-align: center;
@@ -133,7 +133,7 @@ button {
 .bank_acct_info {
   h3 {
     font-size: 14px;
-    color: var(--font-gray);
+    color: var(--gray);
     margin-bottom: 16px;
   }
 
@@ -165,7 +165,7 @@ button {
     }
 
     .calced span {
-      color: var(--font-gray);
+      color: var(--gray);
       margin-left: 2px;
     }
   }
@@ -179,7 +179,7 @@ button {
   -webkit-appearance: none;
   width: 72.401433%;
   height: 6px;
-  background: #C4C4C4;
+  background: var(--dark-gray);
   border-radius: 3px;
   margin: 0 0px 14px 4px;
 
@@ -196,8 +196,8 @@ input {
     width: 8px;
     height: 21px;
     box-sizing: border-box;
-    background: #FF5F00;
-    border: 2px solid #FFFFFF;
+    background: var(--orange);
+    border: 2px solid var(--white);
     border-radius: 2px;
     cursor: pointer;
   }
@@ -206,8 +206,8 @@ input {
     width: 8px;
     height: 21px;
     box-sizing: border-box;
-    background: #FF5F00;
-    border: 2px solid #FFFFFF;
+    background: var(--orange);
+    border: 2px solid var(--white);
     border-radius: 2px;
     cursor: pointer;
   }
@@ -232,7 +232,7 @@ input {
 .bank_use_history {
   min-height: 84vh;
   width: 100%;
-  background-color: var(--page);
+  background-color: var(--white);
   box-shadow: 0px -5px 14px rgba(189, 144, 28, 0.08);
   border-radius: 30px 30px 0px 0px;
   padding-top: 4.3px;
@@ -281,7 +281,7 @@ input {
         span {
           font-size: 12px;
           font-weight: 300;
-          color: var(--page);
+          color: var(--white);
           position: absolute;
         }
 
@@ -322,19 +322,19 @@ input {
             right: 0;
             font-size: 12px;
             line-height: 46px;
-            color: #FF5F00;
+            color: var(--orange);
           }
         }
 
         > div {
           &.orange {
-            background-color: #FF5F00;
+            background-color: var(--orange);
             height: 100%;
             width: 97px;
           }
 
           &.yellow {
-            background-color: #FEB700;
+            background-color: var(--yellow);
             height: 100%;
             width: 121px;
           }
@@ -420,7 +420,7 @@ input {
             }
 
             &.in {
-              color: #FF5F00;
+              color: var(--orange);
             }
           }
         }
@@ -465,7 +465,7 @@ nav {
   position: absolute;
   top: 100vh;
   letter-spacing: -0.24px;
-  background-color: var(--page);
+  background-color: var(--white);
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
@@ -487,7 +487,7 @@ nav {
     height: 114px;
     width: 100%;
     max-width: 720px;
-    background-color: var(--page);
+    background-color: var(--white);
     z-index: 5;
   }
 
@@ -521,7 +521,7 @@ nav {
     span {
       float: right;
       font-size: 24px;
-      color: #FF5F00;
+      color: var(--orange);
       position: relative;
       top: -6px;
     }
@@ -609,7 +609,7 @@ nav {
         padding-left: 4px;
         font-size: 24px;
         letter-spacing: 2px;
-        color: var(--font-base);
+        color: var(--black);
         text-align: center;
         top: 48%;
 
@@ -644,14 +644,14 @@ nav {
       float: left;
       font-size: 18px;
       font-weight: 350;
-      color: var(--font-base);
+      color: var(--black);
     }
 
     .right {
       float: right;
       font-size: 18px;
       font-weight: 350;
-      color: var(--font-gray);
+      color: var(--gray);
     }
 
     &:first-child img {
