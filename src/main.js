@@ -1,7 +1,12 @@
 import './scss/main.scss'
+import Swiper from 'swiper';
+import 'swiper/css';
 
 // A.계좌별 페이지
 const acountPages = document.querySelectorAll('.app_screen')
+
+var swiper = new Swiper(".container", {});
+
 
 // A.Date set
 const date = new Date();
@@ -285,12 +290,21 @@ function pulsEl (day,accum,list) {
   
   const htmlC = list.map(l => {
     const {income,history,price} = l
-    return `
-    <li>
-      <span>${history}</span>
-      <span class="${income}">${numberWithCommas(price)}</span>
-    </li>
-    `
+    if (income === 'in') {
+      return `
+      <li>
+        <span>${history}</span>
+        <span class="${income}">+ ${numberWithCommas(price)}</span>
+      </li>
+      `
+    } else {
+      return `
+      <li>
+        <span>${history}</span>
+        <span class="${income}">${numberWithCommas(price)}</span>
+      </li>
+      `
+    }
   }).join('')
 
   return `<li>${htmlH}<ol>${htmlC}</ol></li>`
