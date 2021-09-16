@@ -1,4 +1,7 @@
 import './scss/main.scss'
+import Swiper from 'swiper';
+import 'swiper/css';
+
 
 // A.계좌별 페이지
 const acountPages = document.querySelectorAll('.app_screen')
@@ -24,6 +27,15 @@ function thisMonth (data) {
       return m === month && y === year && d <= today
   })
 }
+
+
+// B.Swiper
+
+const accSwipe = new Swiper('.swiper', {
+  grabCursor: true,
+  threshold: 100,
+  edgeSwipeThreshold: 20,
+});
 
 
 // B.지출 설정 페이지 on/off

@@ -9,105 +9,209 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+  <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="app_screen">
       <!-- main 화면 -->
-      <main>
-        <div class="safe_area"></div>
-        <!-- header -->
-        <header class="home_header">
-          <a href="javascript:void(0)"><img src="./images/profile.png" alt="user_profile"></a>
-          <h1>생활비</h1>
-          <ul>
-            <li aria-label="QR"><button><img src="./images/QR.svg" alt="QR Leader"></button></li>
-            <li aria-label="검색"><button><img src="./images/search.svg" alt="Search"></button></li>
-          </ul>
-        </header>
-        <!-- bank_acct -->
-        <section class="bank_acct">
-          <div class="bank_acct_info">
-            <h3><span>355-686544-51131</span></h3>
-            <div class="acct_balance"><span>1,240,000</span>원</div>
-            <button class="transfer">이체</button>
-            <div class="mini_report">
-              <div class="bar">
-                <input class="onlyview" type="range" min="0" max="5000000" disabled>
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <main>
+              <div class="safe_area"></div>
+              <!-- header -->
+              <header class="home_header">
+                <a href="javascript:void(0)"><img src="./images/profile.png" alt="user_profile"></a>
+                <h1>생활비</h1>
+                <ul>
+                  <li aria-label="QR"><button><img src="./images/QR.svg" alt="QR Leader"></button></li>
+                  <li aria-label="검색"><button><img src="./images/search.svg" alt="Search"></button></li>
+                </ul>
+              </header>
+              <!-- bank_acct -->
+              <section class="bank_acct">
+                <div class="bank_acct_info">
+                  <h3><span>355-686544-51131</span></h3>
+                  <div class="acct_balance"><span>1,240,000</span>원</div>
+                  <button class="transfer">이체</button>
+                  <div class="mini_report">
+                    <div class="bar">
+                      <input class="onlyview" type="range" min="0" max="5000000" disabled>
+                    </div>
+                    <button class="go_set_budget"><img src="./images/chart.svg" alt="set_budget"></button>
+                    <div class="calced"><span>5일 동안 210,000원 남음</span></div>
+                  </div>
+                </div>
+              </section>
+              <!-- 공지 -->
+              <div class="notice"><span>지금 낮은 이자로 생활대출을 신청하세요! </span><a>Go</a></div>
+              <section class="bank_use_history">
+                <div class="drag_btn"></div>
+                <!-- 저축 -->
+                <div class="saving">
+                  <ul>
+                    <li>
+                      <div class="orange"></div>
+                      <span class="title">여행가자!</span>
+                      <span class="amount">842,200원</span>
+                    </li>
+                    <li>
+                      <div class="yellow"></div>
+                      <span class="title">냉장고사기</span>
+                      <span class="amount">142,200원</span>
+                    </li>
+                    <li>
+                      <a><img src="./images/plus.svg" alt="Add a savings plan"><span>저금통 만들기</span></a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- 내역 -->
+                <div class="use_history_detail">
+                  <ol>
+        
+                  </ol>
+                </div>
+              </section>
+            </main>
+            <!-- 지출관리 설정 page -->
+            <div class="setting">
+              <div class="header">
+                <h1>지출관리</h1>
+                <button class="close">닫기</button>
               </div>
-              <button class="go_set_budget"><img src="./images/chart.svg" alt="set_budget"></button>
-              <div class="calced"><span>5일 동안 210,000원 남음</span></div>
+              <section class="set_budget">
+                <h3>기준금액설정</h3>
+                <span>원</span>
+                <div class="bar">
+                  <input class="set-val" type="range" min="0" max="5000000" step="1000">
+                </div>
+              </section>
+              <section class="daily_report">
+                <h3>일간 리포트</h3>
+                <div class="overflowpart">
+                  <div class="bar_size">
+                    <canvas id="bar_chart" class ="bar_graph"></canvas>
+                  </div>
+                </div>
+              </section>
+              <section class="monthly_out_pattern">
+                  <h3><span class="thismon">6</span>월 지출패턴</h3>
+                  <div class="sizingpart">
+                    <div class ="donut_graph">
+                      <canvas id="donut" class ="donut"></canvas>
+                      <div><span class="total">1,736,500</span><span>원</span></div>
+                    </div>
+                  </div>
+                  <ul class ="out_category">
+                      <li><img src="./images/fuel.svg" alt="fuel cost"><span class="left">주유비</span><span class="right oiling">50,000원</span></li>
+                      <li><img src="./images/health.svg" alt="health care"><span class="left">건강관리비</span><span class="right health">80,000원</span></li>
+                      <li><img src="./images/eating_out.svg" alt="eating-out expenses"><span class="left">외식비</span><span class="right eatout">233,000원</span></li>
+                      <li><img src="./images/shopping.svg" alt="shopping"><span class="left">장보기</span><span class="right mart">390,000원</span></li>
+                      <li><img src="./images/store.svg" alt="store"><span class="left">상점</span><span class="right shopping">46,000원</span></li>
+                  </ul>
+              </section>
             </div>
           </div>
-        </section>
-        <!-- 공지 -->
-        <div class="notice"><span>지금 낮은 이자로 생활대출을 신청하세요! </span><a>Go</a></div>
-        <section class="bank_use_history">
-          <div class="drag_btn"></div>
-          <!-- 저축 -->
-          <div class="saving">
-            <ul>
-              <li>
-                <div class="orange"></div>
-                <span class="title">여행가자!</span>
-                <span class="amount">842,200원</span>
-              </li>
-              <li>
-                <div class="yellow"></div>
-                <span class="title">냉장고사기</span>
-                <span class="amount">142,200원</span>
-              </li>
-              <li>
-                <a><img src="./images/plus.svg" alt="Add a savings plan"><span>저금통 만들기</span></a>
-              </li>
-            </ul>
+          <div class="swiper-slide">
+            <main>
+              <div class="safe_area"></div>
+              <!-- header -->
+              <header class="home_header">
+                <a href="javascript:void(0)"><img src="./images/favicon-96x96.png" alt="user_profile" class="user2"></a>
+                <h1>슬라이드 가능</h1>
+                <ul>
+                  <li aria-label="QR"><button><img src="./images/QR.svg" alt="QR Leader"></button></li>
+                  <li aria-label="검색"><button><img src="./images/search.svg" alt="Search"></button></li>
+                </ul>
+              </header>
+              <!-- bank_acct -->
+              <section class="bank_acct">
+                <div class="bank_acct_info">
+                  <h3><span>355-686544-51131</span></h3>
+                  <div class="acct_balance">구현 가능하다는 것 확인용</div>
+                  <button class="transfer">이체</button>
+                  <div class="mini_report">
+                    <div class="bar">
+                      <input class="onlyview" type="range" min="0" max="5000000" disabled>
+                    </div>
+                    <button class="go_set_budget"><img src="./images/chart.svg" alt="set_budget"></button>
+                    <div class="calced"><span>5일 동안 210,000원 남음</span></div>
+                  </div>
+                </div>
+              </section>
+              <!-- 공지 -->
+              <div class="notice"><span>지금 낮은 이자로 생활대출을 신청하세요! </span><a>Go</a></div>
+              <section class="bank_use_history">
+                <div class="drag_btn"></div>
+                <!-- 저축 -->
+                <div class="saving">
+                  <ul>
+                    <li>
+                      <div class="orange"></div>
+                      <span class="title">여행가자!</span>
+                      <span class="amount">842,200원</span>
+                    </li>
+                    <li>
+                      <div class="yellow"></div>
+                      <span class="title">냉장고사기</span>
+                      <span class="amount">142,200원</span>
+                    </li>
+                    <li>
+                      <a><img src="./images/plus.svg" alt="Add a savings plan"><span>저금통 만들기</span></a>
+                    </li>
+                  </ul>
+                </div>
+                <!-- 내역 -->
+                <div class="use_history_detail">
+                  <ol>
+        
+                  </ol>
+                </div>
+              </section>
+            </main>
+            <!-- 지출관리 설정 page -->
+            <div class="setting">
+              <div class="header">
+                <h1>지출관리</h1>
+                <button class="close">닫기</button>
+              </div>
+              <section class="set_budget">
+                <h3>기준금액설정</h3>
+                <span>원</span>
+                <div class="bar">
+                  <input class="set-val" type="range" min="0" max="5000000" step="1000">
+                </div>
+              </section>
+              <section class="daily_report">
+                <h3>일간 리포트</h3>
+                <div class="overflowpart">
+                  <div class="bar_size">
+                    <canvas id="bar_chart" class ="bar_graph"></canvas>
+                  </div>
+                </div>
+              </section>
+              <section class="monthly_out_pattern">
+                  <h3><span class="thismon">6</span>월 지출패턴</h3>
+                  <div class="sizingpart">
+                    <div class ="donut_graph">
+                      <canvas id="donut" class ="donut"></canvas>
+                      <div><span class="total">1,736,500</span><span>원</span></div>
+                    </div>
+                  </div>
+                  <ul class ="out_category">
+                      <li><img src="./images/fuel.svg" alt="fuel cost"><span class="left">주유비</span><span class="right oiling">50,000원</span></li>
+                      <li><img src="./images/health.svg" alt="health care"><span class="left">건강관리비</span><span class="right health">80,000원</span></li>
+                      <li><img src="./images/eating_out.svg" alt="eating-out expenses"><span class="left">외식비</span><span class="right eatout">233,000원</span></li>
+                      <li><img src="./images/shopping.svg" alt="shopping"><span class="left">장보기</span><span class="right mart">390,000원</span></li>
+                      <li><img src="./images/store.svg" alt="store"><span class="left">상점</span><span class="right shopping">46,000원</span></li>
+                  </ul>
+              </section>
+            </div>
           </div>
-          <!-- 내역 -->
-          <div class="use_history_detail">
-            <ol>
-              
-            </ol>
-          </div>
-        </section>
-      </main>
-      <!-- 지출관리 설정 page -->
-      <div class="setting">
-        <div class="header">
-          <h1>지출관리</h1>
-          <button class="close">닫기</button>
         </div>
-        <section class="set_budget">
-          <h3>기준금액설정</h3>
-          <span>원</span>
-          <div class="bar">
-            <input class="set-val" type="range" min="0" max="5000000" step="1000">
-          </div>
-        </section>
-        <section class="daily_report">
-          <h3>일간 리포트</h3>
-          <div class="overflowpart">
-            <div class="bar_size">
-              <canvas id="bar_chart" class ="bar_graph"></canvas>
-            </div>
-          </div>
-        </section>
-        <section class="monthly_out_pattern">
-            <h3><span class="thismon">6</span>월 지출패턴</h3>
-            <div class="sizingpart">
-              <div class ="donut_graph">
-                <canvas id="donut" class ="donut"></canvas>
-                <div><span class="total">1,736,500</span><span>원</span></div>
-              </div>
-            </div>
-            <ul class ="out_category">
-                <li><img src="./images/fuel.svg" alt="fuel cost"><span class="left">주유비</span><span class="right oiling">50,000원</span></li>
-                <li><img src="./images/health.svg" alt="health care"><span class="left">건강관리비</span><span class="right health">80,000원</span></li>
-                <li><img src="./images/eating_out.svg" alt="eating-out expenses"><span class="left">외식비</span><span class="right eatout">233,000원</span></li>
-                <li><img src="./images/shopping.svg" alt="shopping"><span class="left">장보기</span><span class="right mart">390,000원</span></li>
-                <li><img src="./images/store.svg" alt="store"><span class="left">상점</span><span class="right shopping">46,000원</span></li>
-            </ul>
-        </section>
       </div>
       <!-- 하단 메뉴 -->
       <nav>

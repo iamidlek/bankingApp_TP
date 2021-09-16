@@ -70,6 +70,12 @@ button {
 /* 홈 화면 */
 
 .app_screen {
+  .swiper {
+    height: 100%;
+  }
+  .user2 {
+    border-radius: 50%;
+  }
   header {
     display: flex;
     justify-content: space-between;
