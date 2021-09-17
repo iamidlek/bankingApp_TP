@@ -59,8 +59,8 @@ function setHomePage (setting) {
 acountPages.forEach( page => {
   const dragBtn = page.querySelector('.drag_btn')
   const dragTarget = page.querySelector('.bank_use_history') 
-  let currTargetY = dragTarget.getBoundingClientRect().top
-  
+  // let currTargetY = dragTarget.getBoundingClientRect().top
+  let currTargetY = dragTarget.offsetTop
   // 최대 최소 값 (고정)
   const maxY = dragBtn.getBoundingClientRect().top
   const minY = page.querySelector('.home_header').getBoundingClientRect().bottom 
@@ -109,6 +109,7 @@ acountPages.forEach( page => {
           dragTarget.style.top  = movedY + 'px';
         }
       } else if (e.type === 'touchmove'){
+        
         const distanceY = (eStartY - e.touches[0].clientY)
         const movedY = currTargetY - distanceY
         if (movedY <= maxY && movedY >= minY) {
