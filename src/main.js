@@ -327,7 +327,7 @@ currMonth.then(logs => {
       obj[item.classify] += item.price
       return obj
     }, {})
-    
+
     const DoughnutLabels =[
       'health',
       'eatout',
@@ -337,12 +337,18 @@ currMonth.then(logs => {
     ]
   
   const accumList = DoughnutLabels.map(name => {
-      return accum[name]
+      if (accum[name] === undefined) {
+        return 0
+      } else {
+        return accum[name]
+      }
     })
+  console.log(accumList)
   
   const totalSum = accumList.reduce( function (a, i) {
     return a+i 
   })
+  console.log(totalSum)
 
   const income = accum[""]
 
