@@ -343,12 +343,10 @@ currMonth.then(logs => {
         return accum[name]
       }
     })
-  console.log(accumList)
   
   const totalSum = accumList.reduce( function (a, i) {
     return a+i 
   })
-  console.log(totalSum)
 
   const income = accum[""]
 
